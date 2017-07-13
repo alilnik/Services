@@ -17,5 +17,18 @@
         android:layout_height="wrap_content"
         android:text="Factorial"
         android:onClick="count"/>
+    <Button
+        android:id="@+id/update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:onClick="update"/>
+    <Button
+        android:id="@+id/unbind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unbind"
+        android:onClick="unbind"/>
+
 
 </LinearLayout>

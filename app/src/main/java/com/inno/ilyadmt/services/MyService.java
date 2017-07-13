@@ -2,6 +2,7 @@ package com.inno.ilyadmt.services;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -11,10 +12,20 @@ import android.support.annotation.Nullable;
  */
 
 public class MyService extends Service {
+
+    MyBinder myBinder = new MyBinder();
+    long result = 0;
+
+    class MyBinder extends Binder{
+        MyService getService(){
+            return MyService.this;
+        }
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return myBinder;
     }
 
     @Override
@@ -28,11 +39,14 @@ public class MyService extends Service {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Intent localIntent2 = new Intent("myBroadcast");
-                localIntent2.putExtra("factorial",
-                        doWork(localIntent.getIntExtra("factorial", 1))+"");
-                sendBroadcast(localIntent2);
-                stopSelf();
+                if(localIntent != null){
+                    Intent localIntent2 = new Intent("myBroadcast");
+                    result = doWork(localIntent.getIntExtra("factorial", 1));
+                    localIntent2.putExtra("factorial",
+                            result+"");
+                    sendBroadcast(localIntent2);
+                }
+//                stopSelf();
             }
         });
         thread.start();
@@ -40,7 +54,7 @@ public class MyService extends Service {
 
     }
 
-    public long doWork(int i){
+    public int doWork(int i){
         if (i < 0) return -1;
         if (i == 0) return 1;
         return i*doWork(i-1);
